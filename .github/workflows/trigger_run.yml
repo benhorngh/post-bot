@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      logs_file_name: run_logs.txt
+      logs_file_path: /tmp/logs.txt
 
     steps:
     - name: Checkout
@@ -26,10 +26,10 @@ jobs:
       env:
         FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
       run: |
-        aws lambda invoke --function-name $FUNCTION_NAME --log-type Tail $logs_file_name
+        aws lambda invoke --function-name $FUNCTION_NAME --log-type Tail $logs_file_path
 
     - name: Upload logs
       uses: actions/upload-artifact@v3
       with:
         name: logs
-        path: $logs_file_name
+        path: $logs_file_path
