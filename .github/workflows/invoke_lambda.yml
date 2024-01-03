@@ -1,8 +1,6 @@
 name: Master CI/CD
 on:
-  dispatch:
-    branches: master
-
+  workflow_dispatch:
 
 jobs:
   deploy:
