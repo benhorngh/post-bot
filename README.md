@@ -1,8 +1,8 @@
-# Post bot
-Bot that post on Twitter (𝕏).
+# Post Bot
+Bot that posts on Twitter (𝕏).
 
-### Patents bot
-Fetch new patents from the government official public data source and post it once a day.
+### Patents Bot
+Fetch a new patent from the government official public data source and post it once a day.
 
 Stack:
 - Python 3.10
