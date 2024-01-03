@@ -28,8 +28,3 @@ jobs:
       run: |
         aws lambda invoke --function-name $FUNCTION_NAME --log-type Tail $response_file_path
         cat $repoonse_file_path
-    - name: Upload logs
-      uses: actions/upload-artifact@v3
-      with:
-        name: logs
-        path: $response_file_path

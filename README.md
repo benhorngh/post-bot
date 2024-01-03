@@ -8,7 +8,7 @@ Stack:
 - Python 3.10
 - Twitter API (tweepy)
 - GCP Firebase - Firestore
-- AWS lambda
-- AWS secrets manager
+- AWS Lambda
+- AWS Secrets Manager
 - data.gov.il public API
 - Docker
