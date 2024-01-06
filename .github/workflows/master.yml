@@ -10,6 +10,7 @@ jobs:
       lambda_function_name: ${{ vars.PATENT_BOT_LAMBDA_FUNCTION_NAME }}
       ecr_repo_name: ${{ vars.PATENT_BOT_ECR_REPO_NAME }}
       region: ${{ vars.REGION }}
+      dockerfile_path: patent_bot/
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -20,6 +21,7 @@ jobs:
       lambda_function_name: ${{ vars.WEATHER_BOT_LAMBDA_FUNCTION_NAME }}
       ecr_repo_name: ${{ vars.WEATHER_BOT_ECR_REPO_NAME }}
       region: ${{ vars.REGION }}
+      dockerfile_path: weather_bot/
     secrets:
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
