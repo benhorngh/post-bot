@@ -12,9 +12,9 @@ def handler(event, context):
 
         settings.init()
 
-        from controllers.secrets import update_secrets
+        from controllers.secrets import update_secrets_for_patent_bot
 
-        update_secrets()
+        update_secrets_for_patent_bot()
 
         from controllers.patents import start
 

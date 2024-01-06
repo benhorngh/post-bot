@@ -12,3 +12,12 @@ Stack:
 - AWS Secrets Manager
 - data.gov.il public API
 - Docker
+
+### Setup
+#### Cloud
+https://docs.aws.amazon.com/lambda/latest/dg/python-image.html
+#### Local
+```bashx
+pip install -r requirements.txt
+python patent_bot/local_runner.py
+```

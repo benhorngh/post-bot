@@ -9,6 +9,7 @@ from services.settings import settings
 
 class SecretId(str, Enum):
     patent = "patent"
+    weather = "weather"
     gcp_credentials = "patent-gcp-credentials"
 
 
@@ -46,9 +47,5 @@ def _get_secret(secret_id: str) -> dict:
     return secrets
 
 
-def get_secrets() -> dict:
-    all_secrets = {}
-    for secret_id in SecretId:
-        secrets = _get_secret(secret_id)
-        all_secrets.update(secrets)
-    return all_secrets
+def get_secret(secret_id: SecretId) -> dict:
+    return _get_secret(secret_id)

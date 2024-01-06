@@ -1,7 +1,13 @@
-name: Master CI/CD
+name: Deploy Lambda
 on:
-  push:
-    branches: master
+  workflow_call:
+    inputs:
+      ecr_repo_name:
+        type: string
+        required: true
+      lambda_function_name:
+        type: string
+        required: true
 
 jobs:
   deploy:
@@ -27,7 +33,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.ECR_REPO_NAME }}
+        ECR_REPOSITORY: ${{ inputs.ecr_repo_name }}
         IMAGE_TAG: latest
       run: |
         docker build -f patent_bot/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -38,7 +44,7 @@ jobs:
     - name: Update lambda function
       id: update-lambda
       env:
-        FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
+        FUNCTION_NAME: ${{ inputs.lambda_function_name }}
         IMAGE_URI: ${{ steps.build-image.outputs.image_uri }}
       run: |
         aws lambda update-function-code --function-name $FUNCTION_NAME --image-uri $IMAGE_URI

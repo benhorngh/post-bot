@@ -1,0 +1,30 @@
+name: Trigger Patent Bot
+on:
+  workflow_dispatch:
+
+jobs:
+  Invoke-Lambda:
+    name: Invoke lambda function
+    runs-on: ubuntu-latest
+
+    env:
+      response_file_path: /tmp/response.json
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.REGION }}
+
+    - name: Invoke lambda function
+      id: invoke-lambda
+      env:
+        FUNCTION_NAME: ${{ vars.PATENT_BOT_LAMBDA_FUNCTION_NAME }}
+      run: |
+        aws lambda invoke --function-name $FUNCTION_NAME --log-type Tail $response_file_path
+        cat $repoonse_file_path

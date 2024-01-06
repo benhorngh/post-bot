@@ -12,9 +12,9 @@ def handler(event, context):
 
         settings.init()
 
-        from controllers.secrets import update_secrets
+        from controllers.secrets import update_secrets_for_weather_bot
 
-        update_secrets()
+        update_secrets_for_weather_bot()
 
         from controllers.weather import start
 
