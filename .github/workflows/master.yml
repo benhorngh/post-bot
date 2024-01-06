@@ -8,14 +8,18 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       lambda_function_name: ${{ vars.PATENT_BOT_LAMBDA_FUNCTION_NAME }}
+      region: ${{ vars.REGION }}
     secrets:
-      inherit
       ecr_repo_name: ${{ secrets.PATENT_BOT_ECR_REPO_NAME }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   Deploy-Weather-Bot:
     uses: ./.github/workflows/deploy.yml
     with:
       lambda_function_name: ${{ vars.WEATHER_BOT_LAMBDA_FUNCTION_NAME }}
+      region: ${{ vars.REGION }}
     secrets:
-      inherit
       ecr_repo_name: ${{ secrets.WEATHER_BOT_ECR_REPO_NAME }}
+      aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
