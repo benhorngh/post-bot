@@ -9,9 +9,17 @@ jobs:
     with:
       ecr_repo_name: ${{ secrets.PATENT_BOT_ECR_REPO_NAME }}
       lambda_function_name: ${{ vars.PATENT_BOT_LAMBDA_FUNCTION_NAME }}
+    secrets:
+      inherit
+    env:
+      inherit
 
   Deploy-Weather-Bot:
     uses: ./.github/workflows/deploy.yml
     with:
       ecr_repo_name: ${{ secrets.WEATHER_BOT_ECR_REPO_NAME }}
       lambda_function_name: ${{ vars.WEATHER_BOT_LAMBDA_FUNCTION_NAME }}
+    secrets:
+      inherit
+    env:
+      inherit
