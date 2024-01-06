@@ -8,6 +8,9 @@ on:
       lambda_function_name:
         type: string
         required: true
+      region:
+        type: string
+        required: true
 
 jobs:
   deploy:
@@ -23,7 +26,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ vars.REGION }}
+        aws-region: ${{ inputs.region }}
 
     - name: Login to Amazon ECR
       id: login-ecr
