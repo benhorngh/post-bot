@@ -1,10 +1,10 @@
 import logging
 
-import lambda_function
+from patent_bot import lambda_function
 
 
-def handle():
-    _init_logger()
+def patent():
+    lambda_function.handler(None, None)
 
 
 def _init_logger():
@@ -13,8 +13,8 @@ def _init_logger():
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
     logger.addHandler(console_handler)
-    lambda_function.handler(None, None)
 
 
 if __name__ == "__main__":
-    handle()
+    _init_logger()
+    patent()

@@ -8,6 +8,6 @@ RUN pip install -r requirements.txt
 # copy relevant code
 COPY services ${LAMBDA_TASK_ROOT}/services
 COPY controllers ${LAMBDA_TASK_ROOT}/controllers
-COPY lambda_function.py ${LAMBDA_TASK_ROOT}
+COPY weather_bot/lambda_function.py ${LAMBDA_TASK_ROOT}
 
 CMD [ "lambda_function.handler" ]

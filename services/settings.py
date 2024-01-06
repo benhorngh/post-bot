@@ -16,6 +16,8 @@ class Config:
 
     AWS__REGION: str = None
 
+    OWM__API_KEY: str = None
+
     def __init__(self):
         self.TWITTER__ACCESS_KEY: str = os.getenv("TWITTER__ACCESS_KEY")
         self.TWITTER__ACCESS_SECRET: str = os.getenv("TWITTER__ACCESS_SECRET")
@@ -26,6 +28,8 @@ class Config:
         self.GCP__CREDENTIALS_JSON: str = os.getenv("GCP__CREDENTIALS_JSON")
 
         self.AWS__REGION: str = os.getenv("AWS__REGION")
+
+        self.OWM__API_KEY: str = os.getenv("OWM__API_KEY")
 
 
 class Settings:
