@@ -3,8 +3,10 @@ on:
   workflow_call:
     inputs:
       lambda_function_name:
+        type: string
         required: true
       region:
+        type: string
         required: true
     secrets:
       ecr_repo_name:
