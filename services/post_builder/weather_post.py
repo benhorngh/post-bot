@@ -39,9 +39,8 @@ def _body(response: WeatherResponse) -> str:
 def _daily_body(response: WeatherResponse) -> str:
     forecasts = response.list
     temps = statistics.mean([f.main.temp for f in forecasts])
-    temp = round(temps)
     descriptions = _get_descriptions(forecasts)
-    return f"{_degrees_text(temp)}, {descriptions[0]}"
+    return f"{_degrees_text(temps)}, {descriptions[0]}"
 
 
 def _hourly_body(response: WeatherResponse) -> str:
@@ -56,7 +55,7 @@ def _hourly_forecast_text(forecast: Forecast, timezone_in_seconds: int) -> str:
     local_time = forecast.dt_txt + timedelta(seconds=timezone_in_seconds)
     start_time = local_time.hour
     end_time = local_time.hour + 3
-    return f"{start_time}-{end_time}: {_degrees_text(forecast.main.temp)}. {forecast.weather[0].description}"
+    return f"{start_time}-{end_time}: {_degrees_text(forecast.main.temp)} {forecast.weather[0].description}"
 
 
 def _get_descriptions(forecasts: list[Forecast]) -> list[str]:
@@ -104,4 +103,4 @@ def _is_rain_code(code: int) -> bool:
 
 
 def _degrees_text(degrees: float) -> str:
-    return f"{degrees}°C"
+    return f"{round(degrees)}°"

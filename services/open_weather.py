@@ -68,7 +68,7 @@ def _get_forecasts_in_timeframe(
     return in_timeframe
 
 
-def get_weather(tomorrow: bool = False) -> WeatherResponse:
+def get_weather(tomorrow: bool) -> WeatherResponse:
     weather_response = _fetch_forecast()
     forecasts = _get_forecasts_in_timeframe(weather_response, tomorrow)
     weather_response.list = forecasts
