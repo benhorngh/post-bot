@@ -5,6 +5,7 @@ from typing import Optional
 from services import data_fetch
 from services import firebase_client
 from services import twitter_client
+from services.post_builder import patent_post
 
 
 def start():
@@ -28,7 +29,7 @@ def upload_new_patents():
 
 
 def _handle_new_patent(new_patent: data_fetch.CPCPatent):
-    content = _get_post_content(new_patent)
+    content = patent_post.build_post(new_patent)
     post_id = twitter_client.post_tweet(content)
     new_record = firebase_client.UploadedRecord(
         patent_id=new_patent.patent_id,
@@ -47,7 +48,3 @@ def _find_new_patent(
     for patent in patents:
         if patent.patent_id not in uploaded_ids:
             return patent
-
-
-def _get_post_content(patent: data_fetch.CPCPatent) -> str:
-    return patent.content

@@ -6,8 +6,6 @@ from pydantic import BaseModel, Field
 from services import utils
 from services.settings import settings
 
-CITY_CODE = "Tel Aviv, IL"
-LANGUAGE = "he"
 UNITS = "metric"
 
 
@@ -41,10 +39,10 @@ class WeatherResponse(BaseModel):
 
 def _fetch_forecast() -> WeatherResponse:
     params = {
-        "q": CITY_CODE,
+        "q": settings.consts.WEATHER_CITY,
         "appid": settings.config.OWM__API_KEY,
         "units": UNITS,
-        "lang": LANGUAGE,
+        "lang": settings.consts.LANGUAGE,
     }
     response = requests.get(url, params=params)
     response.raise_for_status()
@@ -55,7 +53,7 @@ def _get_forecasts_in_timeframe(
     response: WeatherResponse, tomorrow: bool
 ) -> list[Forecast]:
     target_date = utils.get_target_date(response.city.timezone, tomorrow)
-    min_datetime = datetime.combine(target_date, time(hour=9))
+    min_datetime = datetime.combine(target_date, time(hour=8))
     max_datetime = datetime.combine(target_date, time(hour=18))
 
     min_datetime_utc = min_datetime - timedelta(seconds=response.city.timezone)

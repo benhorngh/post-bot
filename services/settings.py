@@ -32,19 +32,33 @@ class Config:
         self.OWM__API_KEY: str = os.getenv("OWM__API_KEY")
 
 
+@dataclasses.dataclass
+class Consts:
+    LANGUAGE: str = "he"
+    WEATHER_CITY: str = "Tel Aviv, IL"
+
+
 class Settings:
     _config = None
+    _consts = None
 
     @classmethod
     def init(cls):
         load_dotenv()
         cls._config = Config()
+        cls._consts = Consts()
 
     @property
     def config(self) -> Config:
         if self._config is not None:
             return self._config
         raise Exception("Config not initialized")
+
+    @property
+    def consts(self) -> Consts:
+        if self._consts is not None:
+            return self._consts
+        raise Exception("Consts not initialized")
 
 
 settings = Settings()

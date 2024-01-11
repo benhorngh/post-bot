@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from services import utils
 from services.open_weather import WeatherResponse, Forecast, Weather
+from services.post_builder.translations import K, t
 
 output_date_format = "%d/%m"
 
@@ -19,7 +20,8 @@ def build_post(response: WeatherResponse, tomorrow: bool) -> str:
 
 def _header(response: WeatherResponse, tomorrow: bool) -> str:
     target_date = utils.get_target_date(response.city.timezone, tomorrow)
-    text = f"{response.city.name} {target_date.strftime(output_date_format)}"
+    day_description = t(K.tomorrow) if tomorrow else t(K.today)
+    text = f"{response.city.name} {day_description} {target_date.strftime(output_date_format)}"
     return text
 
 
@@ -39,8 +41,11 @@ def _body(response: WeatherResponse) -> str:
 def _daily_body(response: WeatherResponse) -> str:
     forecasts = response.list
     temps = statistics.mean([f.main.temp for f in forecasts])
-    descriptions = _get_descriptions(forecasts)
-    return f"{_degrees_text(temps)}, {descriptions[0]}"
+    text = _degrees_text(temps)
+    weather = _get_weathers(forecasts)
+    if not _is_rain_code(weather[0].code):
+        text += f", {weather[0].description}"
+    return text
 
 
 def _hourly_body(response: WeatherResponse) -> str:
@@ -60,7 +65,7 @@ def _hourly_forecast_text(forecast: Forecast, timezone_in_seconds: int) -> str:
 
 def _get_descriptions(forecasts: list[Forecast]) -> list[str]:
     weathers = _get_weathers(forecasts)
-    return [w.description for w in weathers if w.description]
+    return [w.description for w in weathers]
 
 
 def _should_use_hourly_template(forecasts: list[Forecast]):
@@ -75,15 +80,19 @@ def _should_use_hourly_template(forecasts: list[Forecast]):
 
 
 def _get_weathers(forecasts: list[Forecast]) -> list[Weather]:
-    return [w for f in forecasts for w in f.weather if w is not None]
+    return [w for f in forecasts for w in f.weather if w is not None and w.description]
 
 
 def _get_rain_emoji(forecasts: list[Forecast]) -> str:
     weathers = _get_weathers(forecasts)
-    rain_code = max([0, *[w.code for w in weathers if _is_rain_code(w.code)]])
-    text = "גשם: "
-    text += _rain_emoji_by_code(rain_code)
-    return text
+    rain = [w for w in weathers if _is_rain_code(w.code)]
+    description, code = t(K.no_rain), 0
+    if rain:
+        rain.sort(key=lambda w: w.code, reverse=True)
+        description, code = rain[0].description, rain[0].code
+
+    emoji = _rain_emoji_by_code(code)
+    return f"{description} {emoji}"
 
 
 def _rain_emoji_by_code(rain_code: int) -> str:

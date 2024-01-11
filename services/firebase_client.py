@@ -41,7 +41,8 @@ class FirebaseClient:
     _client = None
 
     @classmethod
-    def start(cls, credentials_json: str = settings.config.GCP__CREDENTIALS_JSON):
+    def start(cls, credentials_json: str = None):
+        credentials_json = credentials_json or settings.config.GCP__CREDENTIALS_JSON
         if FirebaseClient._client is None:
             tmp = tempfile.NamedTemporaryFile(mode="w", delete=False)
 

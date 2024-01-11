@@ -17,7 +17,8 @@ class AWSSecretManagerClient:
     _client = None
 
     @classmethod
-    def start(cls, region_name: str = settings.config.AWS__REGION):
+    def start(cls, region_name: str = None):
+        region_name = region_name or settings.config.AWS__REGION
         session = boto3.session.Session()
         client = session.client(service_name="secretsmanager", region_name=region_name)
         cls._client = client
