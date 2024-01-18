@@ -17,12 +17,10 @@ def start():
 def upload_new_patents():
     logging.info("Start upload new patent")
     patents = data_fetch.get_patents()
-    last_uploaded = firebase_client.get_records()
-    new_patent = _find_new_patent(patents, last_uploaded)
+    new_patent = _find_new_patent(patents)
     if new_patent:
         _handle_new_patent(new_patent)
         logging.info("Patent posted!")
-
     else:
         logging.info("No new patents")
     logging.info("Done")
@@ -41,10 +39,8 @@ def _handle_new_patent(new_patent: data_fetch.CPCPatent):
 
 
 def _find_new_patent(
-    patents: list[data_fetch.CPCPatent],
-    last_uploaded: list[firebase_client.UploadedRecord],
-) -> Optional[data_fetch.CPCPatent]:
-    uploaded_ids = [u.patent_id for u in last_uploaded]
+        patents: list[data_fetch.CPCPatent]) -> Optional[data_fetch.CPCPatent]:
     for patent in patents:
-        if patent.patent_id not in uploaded_ids:
+        stored_patent = firebase_client.get_record(patent.patent_id)
+        if not stored_patent:
             return patent

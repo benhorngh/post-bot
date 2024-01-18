@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 from enum import Enum
 import tempfile
+from typing import Optional
 
 import firebase_admin
 from firebase_admin import firestore, credentials
@@ -82,3 +83,14 @@ def get_records() -> list[UploadedRecord]:
     patents = query.stream()
     logging.info("Records successfully fetched")
     return [UploadedRecord(**p.to_dict()) for p in patents]
+
+
+def get_record(patent_id: str) -> Optional[UploadedRecord]:
+    logging.info(f"Getting record {patent_id} data from firestore")
+    query = (
+        get_collection(firebase_client.client)
+        .where(StoredFieldName.patent_id, '==', patent_id)
+    )
+    patent = list(query.stream())
+    logging.info("Record successfully fetched")
+    return UploadedRecord(**patent[0].to_dict()) if patent else None
