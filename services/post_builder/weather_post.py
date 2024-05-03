@@ -60,7 +60,8 @@ def _hourly_forecast_text(forecast: Forecast, timezone_in_seconds: int) -> str:
     local_time = forecast.dt_txt + timedelta(seconds=timezone_in_seconds)
     start_time = local_time.hour
     end_time = local_time.hour + 3
-    return f"{start_time}-{end_time}: {_degrees_text(forecast.main.temp)} {forecast.weather[0].description}"
+    emoji = icon_name_to_emoji(forecast.weather[0].icon)
+    return f"{start_time}-{end_time}: {_degrees_text(forecast.main.temp)} {forecast.weather[0].description} {emoji}"
 
 
 def _get_descriptions(forecasts: list[Forecast]) -> list[str]:
@@ -90,7 +91,8 @@ def _get_rain_emoji(forecasts: list[Forecast]) -> str:
     if rain:
         rain.sort(key=lambda w: w.code, reverse=True)
         description, code = rain[0].description, rain[0].code
-
+    elif "01d" in [w.icon for w in weathers]:
+        description, code = t(K.clear_sky), 800
     emoji = _rain_emoji_by_code(code)
     return f"{description} {emoji}"
 
@@ -105,6 +107,28 @@ def _rain_emoji_by_code(rain_code: int) -> str:
         return "🌧️"
     elif 502 <= rain_code <= 531:
         return "⛈️"
+    elif rain_code == 800:
+        return "☀️"
+    elif rain_code == 801:
+        return "🌤️"
+    elif 802 <= rain_code <= 804:
+        return "☁️"
+
+
+def icon_name_to_emoji(icon_name: str):
+    # https://openweathermap.org/weather-conditions#Icon-list
+    if icon_name == "01d":
+        return "☀️"
+    elif icon_name == "01n":
+        return "🌝"
+    elif icon_name == "02d":
+        return "🌤️"
+    elif icon_name == "02n":
+        return "☁️"
+    elif icon_name == "03d":
+        return "☁️"
+    else:
+        return ""
 
 
 def _is_rain_code(code: int) -> bool:

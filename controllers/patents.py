@@ -39,7 +39,8 @@ def _handle_new_patent(new_patent: data_fetch.CPCPatent):
 
 
 def _find_new_patent(
-        patents: list[data_fetch.CPCPatent]) -> Optional[data_fetch.CPCPatent]:
+    patents: list[data_fetch.CPCPatent],
+) -> Optional[data_fetch.CPCPatent]:
     for patent in patents:
         stored_patent = firebase_client.get_record(patent.patent_id)
         if not stored_patent:

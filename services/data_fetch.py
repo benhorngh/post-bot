@@ -1,4 +1,5 @@
 """https://data.gov.il/api/3/action/datastore_search?resource_id=b2c59e21-c345-4b02-b071-2890a3d431d6&limit=5"""
+
 import dataclasses
 import logging
 

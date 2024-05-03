@@ -87,9 +87,8 @@ def get_records() -> list[UploadedRecord]:
 
 def get_record(patent_id: str) -> Optional[UploadedRecord]:
     logging.info(f"Getting record {patent_id} data from firestore")
-    query = (
-        get_collection(firebase_client.client)
-        .where(StoredFieldName.patent_id, '==', patent_id)
+    query = get_collection(firebase_client.client).where(
+        StoredFieldName.patent_id, "==", patent_id
     )
     patent = list(query.stream())
     logging.info("Record successfully fetched")

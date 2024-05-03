@@ -23,6 +23,7 @@ class Temperature(BaseModel):
 
 class Weather(BaseModel):
     description: str
+    icon: str
     code: int = Field(..., alias="id")
 
 
@@ -53,8 +54,8 @@ def _get_forecasts_in_timeframe(
     response: WeatherResponse, tomorrow: bool
 ) -> list[Forecast]:
     target_date = utils.get_target_date(response.city.timezone, tomorrow)
-    min_datetime = datetime.combine(target_date, time(hour=8))
-    max_datetime = datetime.combine(target_date, time(hour=18))
+    min_datetime = datetime.combine(target_date, time(hour=5))
+    max_datetime = datetime.combine(target_date, time(hour=23))
 
     min_datetime_utc = min_datetime - timedelta(seconds=response.city.timezone)
     max_datetime_utc = max_datetime - timedelta(seconds=response.city.timezone)
