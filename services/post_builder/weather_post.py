@@ -119,8 +119,8 @@ def icon_name_to_emoji(icon_name: str):
     # https://openweathermap.org/weather-conditions#Icon-list
     if icon_name == "01d":
         return "☀️"
-    elif icon_name == "01n":
-        return "🌝"
+    # elif icon_name == "01n":
+    #     return "🌝"
     elif icon_name == "02d":
         return "🌤️"
     elif icon_name == "02n":
